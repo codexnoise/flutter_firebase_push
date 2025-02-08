@@ -11,20 +11,27 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_firebase_push/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  testWidgets('Counter increments to N after N taps', (WidgetTester tester) async {
+    // Define the number of times the button will be tapped
+    const int taps = 3;
+
+    // Build the app
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
+    // Verify that the counter starts at 0
     expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(find.text('$taps'), findsNothing);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Tap the '+' button N times
+    for (int i = 0; i < taps; i++) {
+      await tester.tap(find.byIcon(Icons.add));
+    }
 
-    // Verify that our counter has incremented.
+    await tester.pump(); // Re-render the widget after all interactions
+
+    // Verify that the counter displays N
     expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('$taps'), findsOneWidget);
   });
 }
+
